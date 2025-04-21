@@ -18,19 +18,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
-    private TextView forgotPasswordTextView;
+    private TextView forgotPasswordTextView, signupRedirectTextView;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -44,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         // Initialize Views
         emailEditText = findViewById(R.id.email_input);
@@ -51,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         forgotPasswordTextView = findViewById(R.id.forgot_password);
         progressBar = findViewById(R.id.progress_bar);
+        signupRedirectTextView = findViewById(R.id.signup_redirect);
 
         // Set login button click listener
         loginButton.setOnClickListener(v -> loginUser());
@@ -61,8 +61,13 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        signupRedirectTextView.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+            startActivity(intent);
+        });
+
         // Handle window insets (Edge-to-edge layout)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -103,41 +108,37 @@ public class LoginActivity extends AppCompatActivity {
 
     // Function to check user role and redirect accordingly (Admin, Instructor, Student)
     private void checkUserRoleAndRedirect(String userId) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        firestore.collection("users").document(userId)  // Correct Firestore collection name (lowercase 'users')
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String role = documentSnapshot.getString("role");
 
-        // Retrieve user data from Firebase Realtime Database
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                String role = snapshot.child("role").getValue(String.class);
-
-                if (role != null) {
-                    // Redirect based on user role
-                    Intent intent;
-                    switch (role) {
-                        case "admin":
-                            intent = new Intent(LoginActivity.this, AdminpanelActivity.class);
-                            break;
-                        case "instructor":
-                            intent = new Intent(LoginActivity.this, InstructorpanelActivity.class);
-                            break;
-                        default:
-                            intent = new Intent(LoginActivity.this, StudentdashboardActivity.class);
-                            break;
+                        // Redirect based on user role
+                        Intent intent;
+                        if (role != null) {
+                            switch (role) {
+                                case "admin":
+                                    intent = new Intent(LoginActivity.this, AdminpanelActivity.class);
+                                    break;
+                                case "instructor":
+                                    intent = new Intent(LoginActivity.this, InstructorpanelActivity.class);
+                                    break;
+                                default:
+                                    intent = new Intent(LoginActivity.this, StudentdashboardActivity.class);
+                                    break;
+                            }
+                            startActivity(intent);
+                            finish(); // Close the login screen
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Role not found", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                     }
-                    startActivity(intent);
-                    finish(); // Close the login screen
-                } else {
-                    Toast.makeText(LoginActivity.this, "Role not found", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Toast.makeText(LoginActivity.this, "Failed to retrieve user data", Toast.LENGTH_SHORT).show();
-            }
-        });
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(LoginActivity.this, "Error getting user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
-
-
 }

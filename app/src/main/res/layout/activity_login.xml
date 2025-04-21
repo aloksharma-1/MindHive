@@ -80,7 +80,6 @@
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-            <!-- Forgot password link -->
             <TextView
                 android:id="@+id/forgot_password"
                 android:layout_width="wrap_content"
@@ -89,6 +88,17 @@
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:layout_marginTop="12dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <!-- New Sign Up Redirect TextView -->
+            <TextView
+                android:id="@+id/signup_redirect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account? Sign Up"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
                 android:layout_gravity="center_horizontal"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
