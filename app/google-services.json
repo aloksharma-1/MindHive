@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "800062143630",
+    "project_id": "mindhiveteam",
+    "storage_bucket": "mindhiveteam.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800062143630:android:964254c149cea6e0421ddf",
+        "android_client_info": {
+          "package_name": "com.teamtrio.mindhive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyConjiU7I9HcbtrDOu49akI07oNLdNRf5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
