@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,31 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MindHive"
         tools:targetApi="31">
+
         <activity
-            android:name=".LoginActivity"
-            android:exported="false">
+            android:name=".common.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
-        <activity
-            android:name=".SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminpanelActivity"
-            android:exported="false" />
-        <activity
-            android:name=".InstructorpanelActivity"
-            android:exported="false" />
-        <activity
-            android:name=".StudentdashboardActivity"
-            android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter></activity>
+        <activity android:name=".common.SignupActivity" android:exported="false" />
+        <activity android:name=".common.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".admin.AdminpanelActivity" android:exported="false" />
+        <activity android:name=".instructor.InstructorpanelActivity" android:exported="false" />
+        <activity android:name=".student.StudentdashboardActivity" android:exported="false" />
 
     </application>
 

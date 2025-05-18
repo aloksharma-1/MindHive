@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_home"
+        android:icon="@drawable/round_123_24"
+        android:title="Home" />
+    <item android:id="@+id/nav_add_course"
+        android:icon="@drawable/round_123_24"
+        android:title="Add Course" />
+    <item android:id="@+id/nav_my_courses"
+        android:icon="@drawable/round_123_24"
+        android:title="My Courses" />
+    <item android:id="@+id/nav_profile_ins"
+        android:icon="@drawable/round_123_24"
+        android:title="Profile" />
+</menu>

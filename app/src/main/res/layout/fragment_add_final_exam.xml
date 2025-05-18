@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Question"
+            android:inputType="textMultiLine"
+            android:minLines="2" />
+
+        <EditText android:id="@+id/et_option_a"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option A" />
+
+        <EditText android:id="@+id/et_option_b"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option B" />
+
+        <EditText android:id="@+id/et_option_c"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option C" />
+
+        <EditText android:id="@+id/et_option_d"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Option D" />
+
+        <EditText
+            android:id="@+id/et_correct_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correct Option (A/B/C/D)" />
+
+        <Button
+            android:id="@+id/btn_add_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Question"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

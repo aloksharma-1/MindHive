@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand Core -->
+    <color name="colorPrimary">#00B4F0</color>        <!-- Bright Sky Blue -->
+    <color name="colorPrimaryDark">#0A2A5C</color>    <!-- Deep Navy (head outline) -->
+    <color name="colorAccent">#FF4E94</color>         <!-- Neural pink (dots) -->
+
+    <!-- Backgrounds & Surfaces -->
+    <color name="background_light">#F8FAFC</color>    <!-- Light Clean Background -->
+    <color name="background_dark">#1A1C1E</color>     <!-- For dark surfaces -->
+    <color name="surface_light">#FFFFFF</color>
+    <color name="surface_dark">#2C2F33</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#1B1B1B</color>        <!-- Near-black for contrast -->
+    <color name="text_secondary">#4F5B62</color>      <!-- Muted gray-blue -->
+    <color name="text_inverse">#FFFFFF</color>        <!-- For dark backgrounds -->
+
+    <!-- Navigation -->
+    <color name="nav_active_color">#008BE8</color>     <!-- Lively blue (active) -->
+    <color name="nav_inactive_color">#90A4AE</color>   <!-- Muted bluish-gray -->
+
+    <!-- Feedback/State -->
+    <color name="success">#43A047</color>              <!-- Green for success states -->
+    <color name="error">#D32F2F</color>                <!-- Material red -->
+    <color name="warning">#FFA000</color>              <!-- Amber -->
+    <color name="info">#1976D2</color>                 <!-- Professional info blue -->
+
+    <!-- Gradient Option (Header/Card backgrounds) -->
+    <color name="gradient_start">#0077C2</color>       <!-- Medium Blue -->
+    <color name="gradient_end">#00E5FF</color>         <!-- Bright Cyan -->
+    <color name="brand_blue">#1E88E5</color>          <!-- Primary -->
+    <color name="brand_dark_blue">#1565C0</color>     <!-- For hints and subtle emphasis -->
+    <color name="white">#FFFFFF</color>
+
+
 </resources>

@@ -1,4 +1,4 @@
-package com.teamtrio.mindhive;
+package com.teamtrio.mindhive.common;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.teamtrio.mindhive.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 

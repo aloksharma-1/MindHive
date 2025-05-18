@@ -1,7 +1,8 @@
-package com.teamtrio.mindhive;
+package com.teamtrio.mindhive.common;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +19,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.teamtrio.mindhive.R;
+import com.teamtrio.mindhive.admin.AdminpanelActivity;
+import com.teamtrio.mindhive.instructor.InstructorpanelActivity;
+import com.teamtrio.mindhive.student.StudentdashboardActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,16 +39,29 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Enable Edge-to-Edge support for modern layouts
-        EdgeToEdge.enable(this);
-
-        setContentView(R.layout.activity_login);
-
-        // Initialize Firebase Auth
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
-        // Initialize Views
+        // 🔐 Auto-login if user is already signed in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            SharedPreferences prefs = getSharedPreferences("MindHivePrefs", MODE_PRIVATE);
+            String role = prefs.getString("user_role", null);
+
+            if (role != null) {
+                redirectToRoleActivity(role);
+                return;
+            } else {
+                checkUserRoleAndRedirect(currentUser.getUid());
+                return;
+            }
+        }
+
+        // UI Setup
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_login);
+
         emailEditText = findViewById(R.id.email_input);
         passwordEditText = findViewById(R.id.password_input);
         loginButton = findViewById(R.id.login_button);
@@ -52,10 +69,8 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         signupRedirectTextView = findViewById(R.id.signup_redirect);
 
-        // Set login button click listener
         loginButton.setOnClickListener(v -> loginUser());
 
-        // Set forgot password click listener (Optional)
         forgotPasswordTextView.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
             startActivity(intent);
@@ -66,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Handle window insets (Edge-to-edge layout)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -74,71 +88,74 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Function to handle user login
+    // 🔐 Login user with FirebaseAuth
     private void loginUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
-        // Validate inputs
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Show progress bar while logging in
         progressBar.setVisibility(View.VISIBLE);
 
-        // Firebase sign in with email and password
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    progressBar.setVisibility(View.GONE); // Hide progress bar
-
+                    progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
-                        // Login successful, redirect user to appropriate panel
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
                             checkUserRoleAndRedirect(user.getUid());
                         }
                     } else {
-                        // Login failed, show error message
-                        Toast.makeText(LoginActivity.this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Login failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    // Function to check user role and redirect accordingly (Admin, Instructor, Student)
+    // 📥 Get role from Firestore, save to SharedPreferences, then redirect
     private void checkUserRoleAndRedirect(String userId) {
-        firestore.collection("users").document(userId)  // Correct Firestore collection name (lowercase 'users')
+        firestore.collection("users").document(userId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         String role = documentSnapshot.getString("role");
 
-                        // Redirect based on user role
-                        Intent intent;
                         if (role != null) {
-                            switch (role) {
-                                case "admin":
-                                    intent = new Intent(LoginActivity.this, AdminpanelActivity.class);
-                                    break;
-                                case "instructor":
-                                    intent = new Intent(LoginActivity.this, InstructorpanelActivity.class);
-                                    break;
-                                default:
-                                    intent = new Intent(LoginActivity.this, StudentdashboardActivity.class);
-                                    break;
-                            }
-                            startActivity(intent);
-                            finish(); // Close the login screen
+                            // Save to SharedPreferences
+                            SharedPreferences prefs = getSharedPreferences("MindHivePrefs", MODE_PRIVATE);
+                            prefs.edit().putString("user_role", role).apply();
+
+                            // Redirect
+                            redirectToRoleActivity(role);
                         } else {
-                            Toast.makeText(LoginActivity.this, "Role not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "User role not found", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "User document not found", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(LoginActivity.this, "Error getting user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error fetching user data: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+    }
+
+    // 🚀 Redirect user to correct Activity
+    private void redirectToRoleActivity(String role) {
+        Intent intent;
+        switch (role) {
+            case "admin":
+                intent = new Intent(this, AdminpanelActivity.class);
+                break;
+            case "instructor":
+                intent = new Intent(this, InstructorpanelActivity.class);
+                break;
+            default:
+                intent = new Intent(this, StudentdashboardActivity.class);
+                break;
+        }
+        startActivity(intent);
+        finish(); // Close login activity
     }
 }
