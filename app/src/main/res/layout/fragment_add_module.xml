@@ -2,19 +2,33 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_course_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course Title"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
 
         <EditText
             android:id="@+id/et_module_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Module Title"
-            android:inputType="text"/>
+            android:inputType="textCapWords"
+            android:padding="12dp"
+            android:background="?attr/editTextBackground"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/et_module_description"
@@ -23,7 +37,11 @@
             android:hint="Module Description"
             android:inputType="textMultiLine"
             android:minLines="3"
-            android:layout_marginTop="8dp"/>
+            android:padding="12dp"
+            android:background="?attr/editTextBackground"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
 
         <EditText
             android:id="@+id/et_theory"
@@ -32,30 +50,59 @@
             android:hint="Theory Content"
             android:inputType="textMultiLine"
             android:minLines="4"
-            android:layout_marginTop="8dp"/>
+            android:padding="12dp"
+            android:background="?attr/editTextBackground"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp" />
 
-        <EditText
-            android:id="@+id/et_video_link"
+        <Button
+            android:id="@+id/btn_upload_video"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Video Link (optional)"
-            android:inputType="textUri"
-            android:layout_marginTop="8dp"/>
+            android:text="Upload Video"
+            android:layout_marginTop="24dp" />
 
-        <EditText
-            android:id="@+id/et_quiz"
+        <TextView
+            android:id="@+id/tv_video_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No video selected"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginTop="8dp" />
+
+        <FrameLayout
+            android:id="@+id/quiz_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quiz (optional)"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="24dp" />
+
+        <Button
+            android:id="@+id/btn_create_quiz"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Quiz"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tv_quiz_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No quiz created"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/btn_add_module"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Module"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="32dp" />
+
     </LinearLayout>
 </ScrollView>

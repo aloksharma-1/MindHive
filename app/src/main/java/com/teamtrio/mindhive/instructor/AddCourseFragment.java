@@ -161,6 +161,18 @@ public class AddCourseFragment extends Fragment {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getContext(), "Course created successfully!", Toast.LENGTH_SHORT).show();
                     resetSaveButton();
+                    // Navigate to AddModuleFragment
+                    AddModuleFragment addModuleFragment = new AddModuleFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("courseId", documentReference.getId());
+                    bundle.putString("courseTitle", title);
+                    addModuleFragment.setArguments(bundle);
+
+                    requireActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container_ins, addModuleFragment) // Replace with your real container ID
+                            .addToBackStack(null)
+                            .commit();
                     clearInputs();
                     // Optionally, navigate to add modules for this course using documentReference.getId()
                 })

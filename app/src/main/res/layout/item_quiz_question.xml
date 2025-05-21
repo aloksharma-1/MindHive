@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#F5F5F5"
+    android:layout_marginTop="12dp"
+    android:elevation="2dp"
+    android:clipToPadding="false">
+
+    <EditText
+        android:id="@+id/et_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter the question"
+        android:inputType="textMultiLine"
+        android:minLines="2"
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:textColor="#212121"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_option_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option 1"
+        android:inputType="text"
+        android:layout_marginTop="16dp"
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:textColor="#212121"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/et_option_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option 2"
+        android:inputType="text"
+        android:layout_marginTop="12dp"
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:textColor="#212121"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/et_option_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option 3"
+        android:inputType="text"
+        android:layout_marginTop="12dp"
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:textColor="#212121"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/et_option_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Option 4"
+        android:inputType="text"
+        android:layout_marginTop="12dp"
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:textColor="#212121"
+        android:textSize="15sp" />
+
+    <RadioGroup
+        android:id="@+id/rg_correct_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical">
+
+        <RadioButton
+            android:id="@+id/rb_option_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correct 1"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_option_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correct 2"
+            android:textSize="14sp"
+            android:layout_marginStart="24dp" />
+
+        <RadioButton
+            android:id="@+id/rb_option_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correct 3"
+            android:textSize="14sp"
+            android:layout_marginStart="24dp" />
+
+        <RadioButton
+            android:id="@+id/rb_option_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correct 4"
+            android:textSize="14sp"
+            android:layout_marginStart="24dp" />
+    </RadioGroup>
+</LinearLayout>
